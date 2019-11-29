@@ -1,0 +1,93 @@
+<div id="pricing" class="container-fluid">
+
+  <!-- Form To Create New Lobby -->
+  
+  
+          <form class="well form-horizontal" #lobbyForm="ngForm" (ngSubmit)="saveLobby(lobbyForm)">
+                  <fieldset>
+              
+                      <!-- Form Name -->
+                      <legend>
+                          <h2><b>Create Lobby</b></h2></legend>
+                      <br>
+              
+                      <!-- Text input-->
+              
+                      <div class="form-group">
+                          <label for="lobbyCode" class="col-md-4 control-label">Lobby Code</label>
+                          <div class="col-md-4 inputGroupContainer">
+                              <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                  <input id="lobbyCode" placeholder="Lobby Code" class="form-control" type="text" name="lobbyCode" [(ngModel)]="lobbyCode">
+                              </div>
+                          </div>
+                      </div>
+              
+                      <!-- Text input-->
+              
+                      <div class="form-group">
+                          <label for="lobbyName" class="col-md-4 control-label">Lobby Name</label>
+                          <div class="col-md-4 inputGroupContainer">
+                              <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                  <input id="lobbyName" placeholder="Lobby Name" class="form-control" type="text"  name="lobbyName" [(ngModel)]="lobbyName">
+                              </div>
+                          </div>
+                      </div>
+              
+                      <!-- Button -->
+                      <div class="form-group">
+                          <label class="col-md-4 control-label"></label>
+                          <div class="col-md-4">
+                              <br>
+                              <button type="submit" class="btn btn-warning">SUBMIT <span class="glyphicon glyphicon-send"></span></button>
+                          </div>
+                      </div>
+              
+                  </fieldset>
+              </form>        
+  
+  
+  
+  
+  <br/>
+  <br/>
+  
+  <!-- List Of Current Lobbies     -->
+  
+  
+  <table class="table table-bordered table-striped text-center">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Lobby Name</th>
+            <th>Lobby Code</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor='let lobby of lobbies'>
+            
+                <td>{{lobby.id}}</td>
+            
+            <td>{{lobby.lobbyName | uppercase }}</td>
+            <td>{{lobby.lobbyCode}}</td>
+            
+        </tr>
+        <!--If the web service takes time to return data, the message in this <tr>
+        is displayed. When the service call returns this message disappears
+        and the employees data is displayed-->
+        <tr *ngIf="!lobbies">
+            <td colspan="3">
+                {{statusMessage}}
+            </td>
+        </tr>
+        <tr *ngIf="lobbies && lobbies.length==0">
+            <td colspan="3">
+                No Lobbies to display
+            </td>
+        </tr>
+    </tbody>
+  </table>
+  
+  </div>
