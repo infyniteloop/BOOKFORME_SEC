@@ -3,7 +3,7 @@
   <!-- Form To Create New Lobby -->
   
   
-          <form class="well form-horizontal" #lobbyForm="ngForm" (ngSubmit)="saveLobby(lobbyForm)">
+          <form class="well form-horizontal" #lobbyForm="ngForm" (ngSubmit)="saveLobby(lobby)">
                   <fieldset>
               
                       <!-- Form Name -->
@@ -13,34 +13,50 @@
               
                       <!-- Text input-->
               
-                      <div class="form-group">
+                      <div class="form-group" [class.has-error]="lobbyCode.invalid && lobbyCode.touched">
                           <label for="lobbyCode" class="col-md-4 control-label">Lobby Code</label>
                           <div class="col-md-4 inputGroupContainer">
                               <div class="input-group">
                                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                  <input id="lobbyCode" placeholder="Lobby Code" class="form-control" type="text" name="lobbyCode" [(ngModel)]="lobbyCode">
+                                  <input required id="lobbyCode" placeholder="Lobby Code" class="form-control" 
+                                  type="text" name="lobbyCode" [(ngModel)]="lobby.lobbyCode" #lobbyCode="ngModel">  
+                                  
                               </div>
+                              
+                            <span class="help-block" *ngIf="lobbyCode.invalid && lobbyCode.touched">
+                                Lobby Code is required
+                            </span>
                           </div>
                       </div>
               
                       <!-- Text input-->
               
-                      <div class="form-group">
+                      <div class="form-group" [class.has-error]="lobbyName.invalid && lobbyName.touched">
                           <label for="lobbyName" class="col-md-4 control-label">Lobby Name</label>
                           <div class="col-md-4 inputGroupContainer">
                               <div class="input-group">
                                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                  <input id="lobbyName" placeholder="Lobby Name" class="form-control" type="text"  name="lobbyName" [(ngModel)]="lobbyName">
+                                  <input required id="lobbyName" placeholder="Lobby Name" class="form-control" 
+                                  type="text"  name="lobbyName" [(ngModel)]="lobby.lobbyName" #lobbyName="ngModel">
                               </div>
+                            <span class="help-block" *ngIf="lobbyName.invalid && lobbyName.touched">
+                                    Lobby Name is required
+                            </span>
                           </div>
                       </div>
+
+                      
               
                       <!-- Button -->
                       <div class="form-group">
                           <label class="col-md-4 control-label"></label>
                           <div class="col-md-4">
                               <br>
-                              <button type="submit" class="btn btn-warning">SUBMIT <span class="glyphicon glyphicon-send"></span></button>
+                              <button type="submit" class="btn btn-warning" [disabled]="lobbyForm.invalid">
+                                  SUBMIT 
+                                  <span class="glyphicon glyphicon-send">                                      
+                                  </span>
+                              </button>
                           </div>
                       </div>
               
@@ -62,17 +78,21 @@
             <th>ID</th>
             <th>Lobby Name</th>
             <th>Lobby Code</th>
+            <th></th>
+            <th></th>
             
         </tr>
     </thead>
     <tbody>
         <tr *ngFor='let lobby of lobbies'>
             
-                <td>{{lobby.id}}</td>
+            <td>{{lobby.id}}</td>
             
-            <td>{{lobby.lobbyName | uppercase }}</td>
+            <td>{{lobby.lobbyName | uppercase }}</td>   
             <td>{{lobby.lobbyCode}}</td>
-            
+            <td><span class="glyphicon glyphicon-trash red" (click)="removeLobby(lobby.id)"></span></td>
+            <td><span class="glyphicon glyphicon-edit" (click)="editLobby(lobby.id)"></span></td>
+           
         </tr>
         <!--If the web service takes time to return data, the message in this <tr>
         is displayed. When the service call returns this message disappears
@@ -90,4 +110,16 @@
     </tbody>
   </table>
   
+  </div>
+
+
+
+  <div id="confirm" class="modal hide fade">
+    <div class="modal-body">
+      Are you sure?
+    </div>
+    <div class="modal-footer">
+      <button type="button" data-dismiss="modal" class="btn btn-primary" id="delete">Delete</button>
+      <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+    </div>
   </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from './auth/token-storage.service';
 import { Router } from '@angular/router';
+import { UserdataService } from './services/userdata.service';
  
 @Component({
   selector: 'app-root',
@@ -13,10 +14,32 @@ export class AppComponent implements OnInit {
   private username: string;
   private locationid: string;
  
-  constructor(private tokenStorage: TokenStorageService, private _router : Router) { }
+  constructor(private tokenStorage: TokenStorageService, 
+              private _router : Router,
+              private _userdata: UserdataService) { 
+
+                tokenStorage.getLoggedInName.subscribe(name => this.changeName(name));
+              }
  
+              private changeName(name: string): void {
+                this.username = name;
+            }
   ngOnInit() {
     if (this.tokenStorage.getToken()) {
+
+
+      
+
+        this._userdata.updateUserData()
+        .subscribe(res => this.username = res,
+          (error) => {
+             // this.statusMessage = 'Problem with the service';
+  
+          });
+    
+
+    
+
       this.username = this.tokenStorage.getUsername();
       this.locationid = this.tokenStorage.getLocationid();
       this.roles = this.tokenStorage.getAuthorities();

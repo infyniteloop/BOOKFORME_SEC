@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
  
 const TOKEN_KEY = 'AuthToken';
 const USERNAME_KEY = 'AuthUsername';
@@ -7,6 +7,9 @@ const LOCATIONID_KEY = 'AuthLocationid';
  
 @Injectable()
 export class TokenStorageService {
+  @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
+
+
   private roles: Array<string> = [];
   constructor() { }
  
@@ -30,6 +33,8 @@ export class TokenStorageService {
     console.log(" \n>>>>>>>>>> TokenStorageService / saveUsername");
     window.sessionStorage.removeItem(USERNAME_KEY);
     window.sessionStorage.setItem(USERNAME_KEY, username);
+    this.getLoggedInName.emit(username);
+
   }
  
   public getUsername(): string {
@@ -68,6 +73,8 @@ export class TokenStorageService {
         this.roles.push(authority.authority);
       });
     }
+
+
  
     return this.roles;
   }

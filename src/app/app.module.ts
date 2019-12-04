@@ -18,6 +18,7 @@ import { UserService } from './services/user.service';
 import { AuthService } from './auth/auth.service';
 import { LobbyComponent } from './lobby/lobby.component';
 import { LobbyService } from './services/lobby.service';
+import { UserdataService } from './services/userdata.service';
  
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { LobbyService } from './services/lobby.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [httpInterceptorProviders, TokenStorageService,UserService ,AuthService, LobbyService ],
+  providers: [httpInterceptorProviders, TokenStorageService,UserService ,AuthService, LobbyService, UserdataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
