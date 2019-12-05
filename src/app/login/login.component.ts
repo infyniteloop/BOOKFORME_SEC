@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Output, EventEmitter} from '@angular/core';
  
 import { AuthService } from '../auth/auth.service';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { AuthLoginInfo } from '../auth/login-info';
 import { Router } from '@angular/router';
+import { UserInfo } from '../models/userinfo.model';
  
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-
+  
   
   form: any = {};
   isLoggedIn = false;
@@ -63,8 +64,8 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = true;
         console.log(" \n---------- : Calling getAuthorities");
         this.roles = this.tokenStorage.getAuthorities();
-        this._router.navigate(['home']);
-        //this.reloadPage();
+        //this._router.navigate(['home']);
+        this.reloadPage();
       },
       error => {
         console.log(error);
